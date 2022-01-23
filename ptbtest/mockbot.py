@@ -91,8 +91,7 @@ class Mockbot(TelegramObject):
             if not self.bot:
                 self.getMe()
 
-            result = func(self, *args, **kwargs)
-            return result
+            return func(self, *args, **kwargs)
 
         return decorator
 
@@ -149,18 +148,15 @@ class Mockbot(TelegramObject):
             dat.pop('disable_notification', "")
             dat.pop('reply_markup', "")
             dat['user'] = self.getMe()
-            cid = dat.pop('chat_id', None)
-            if cid:
+            if cid := dat.pop('chat_id', None):
                 dat['chat'] = self.cg.get_chat(cid=cid)
             else:
                 dat['chat'] = None
-            mid = dat.pop('reply_to_message_id', None)
-            if mid:
+            if mid := dat.pop('reply_to_message_id', None):
                 dat['reply_to_message'] = self.mg.get_message(
                     id=mid, chat=dat['chat']).message
             dat['forward_from_message_id'] = dat.pop('message_id', None)
-            cid = dat.pop('from_chat_id', None)
-            if cid:
+            if cid := dat.pop('from_chat_id', None):
                 dat['forward_from_chat'] = self.cg.get_chat(
                     cid=cid, type='channel')
             dat.pop('inline_message_id', None)
@@ -182,8 +178,7 @@ class Mockbot(TelegramObject):
             dat['voice'] = dat.pop('voice2', None)
             dat['video'] = dat.pop('video2', None)
             dat['sticker'] = dat.pop('sticker2', None)
-            phot = dat.pop('photo', None)
-            if phot:
+            if phot := dat.pop('photo', None):
                 dat['photo'] = True
             return self.mg.get_message(**dat).message
 
@@ -262,8 +257,7 @@ class Mockbot(TelegramObject):
                   reply_markup=None,
                   timeout=None,
                   **kwargs):
-        data = {'chat_id': chat_id, 'audio': audio}
-        data['audio2'] = {'file_id': audio}
+        data = {'chat_id': chat_id, 'audio': audio, 'audio2': {'file_id': audio}}
         if duration:
             data['duration'] = duration
             data['audio2']['duration'] = duration
@@ -314,15 +308,13 @@ class Mockbot(TelegramObject):
                     reply_markup=None,
                     timeout=None,
                     **kwargs):
-        data = {
+        return {
             'chat_id': chat_id,
             'sticker': sticker,
             'sticker2': {
                 'file_id': sticker
             }
         }
-
-        return data
 
     @message
     def sendVideo(self,
@@ -388,7 +380,7 @@ class Mockbot(TelegramObject):
                      reply_markup=None,
                      timeout=None,
                      **kwargs):
-        data = {
+        return {
             'chat_id': chat_id,
             'latitude': latitude,
             'longitude': longitude,
@@ -397,8 +389,6 @@ class Mockbot(TelegramObject):
                 'longitude': longitude
             }
         }
-
-        return data
 
     @message
     def sendVenue(self,
@@ -462,15 +452,11 @@ class Mockbot(TelegramObject):
 
     @message
     def sendGame(self, chat_id, game_short_name, timeout=None, **kwargs):
-        data = {'chat_id': chat_id, 'game_short_name': game_short_name}
-
-        return data
+        return {'chat_id': chat_id, 'game_short_name': game_short_name}
 
     @message
     def sendChatAction(self, chat_id, action, timeout=None, **kwargs):
-        data = {'chat_id': chat_id, 'action': action}
-
-        return data
+        return {'chat_id': chat_id, 'action': action}
 
     def answerInlineQuery(self,
                           inline_query_id,
@@ -518,22 +504,17 @@ class Mockbot(TelegramObject):
         self._sendmessages.append(data)
 
     def getFile(self, file_id, timeout=None, **kwargs):
-        data = {'file_id': file_id}
+        data = {'file_id': file_id, 'method': 'getFile'}
 
-        data['method'] = "getFile"
         self._sendmessages.append(data)
 
     def kickChatMember(self, chat_id, user_id, timeout=None, **kwargs):
-        data = {'chat_id': chat_id, 'user_id': user_id}
-
-        data['method'] = "kickChatMember"
+        data = {'chat_id': chat_id, 'user_id': user_id, 'method': 'kickChatMember'}
 
         self._sendmessages.append(data)
 
     def unbanChatMember(self, chat_id, user_id, timeout=None, **kwargs):
-        data = {'chat_id': chat_id, 'user_id': user_id}
-
-        data['method'] = "unbanChatMember"
+        data = {'chat_id': chat_id, 'user_id': user_id, 'method': 'unbanChatMember'}
 
         self._sendmessages.append(data)
 
@@ -668,37 +649,27 @@ class Mockbot(TelegramObject):
         return None
 
     def leaveChat(self, chat_id, timeout=None, **kwargs):
-        data = {'chat_id': chat_id}
-
-        data['method'] = "leaveChat"
+        data = {'chat_id': chat_id, 'method': 'leaveChat'}
 
         self._sendmessages.append(data)
 
     def getChat(self, chat_id, timeout=None, **kwargs):
-        data = {'chat_id': chat_id}
-
-        data['method'] = "getChat"
+        data = {'chat_id': chat_id, 'method': 'getChat'}
 
         self._sendmessages.append(data)
 
     def getChatAdministrators(self, chat_id, timeout=None, **kwargs):
-        data = {'chat_id': chat_id}
-
-        data['method'] = "getChatAdministrators"
+        data = {'chat_id': chat_id, 'method': 'getChatAdministrators'}
 
         self._sendmessages.append(data)
 
     def getChatMembersCount(self, chat_id, timeout=None, **kwargs):
-        data = {'chat_id': chat_id}
-
-        data['method'] = "getChatMembersCount"
+        data = {'chat_id': chat_id, 'method': 'getChatMembersCount'}
 
         self._sendmessages.append(data)
 
     def getChatMember(self, chat_id, user_id, timeout=None, **kwargs):
-        data = {'chat_id': chat_id, 'user_id': user_id}
-
-        data['method'] = "getChatMember"
+        data = {'chat_id': chat_id, 'user_id': user_id, 'method': 'getChatMember'}
 
         self._sendmessages.append(data)
 

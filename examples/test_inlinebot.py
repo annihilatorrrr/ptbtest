@@ -39,12 +39,15 @@ class TestInlineBot(unittest.TestCase):
 
         def inlinequery(bot, update):
             query = update.inline_query.query
-            results = list()
+            results = [
+                InlineQueryResultArticle(
+                    id=uuid4(),
+                    title="Caps",
+                    input_message_content=InputTextMessageContent(query.upper()),
+                )
+            ]
 
-            results.append(InlineQueryResultArticle(id=uuid4(),
-                                                    title="Caps",
-                                                    input_message_content=InputTextMessageContent(
-                                                        query.upper())))
+
             results.append(InlineQueryResultArticle(id=uuid4(),
                                                     title="Bold",
                                                     input_message_content=InputTextMessageContent(

@@ -106,11 +106,11 @@ class CallbackQueryGenerator(PtbGenerator):
                 raise BadCallbackQueryException(
                     "inline_message_id should be string or True")
 
-        if not len([x for x in [message, inline_message_id] if x]) == 1:
+        if len([x for x in [message, inline_message_id] if x]) != 1:
             raise BadCallbackQueryException(
                 "exactly 1 of message and inline_message_id is needed")
 
-        if not len([x for x in [data, game_short_name] if x]) == 1:
+        if len([x for x in [data, game_short_name] if x]) != 1:
             raise BadCallbackQueryException(
                 "exactly 1 of data and game_short_name is needed")
 

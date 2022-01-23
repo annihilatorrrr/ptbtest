@@ -65,9 +65,8 @@ class ChatGenerator(PtbGenerator):
             telegram.Chat: A telegram Chat object.
 
         """
-        if cid and type == 'private':
-            if cid < 0:
-                type = "group"
+        if cid and type == 'private' and cid < 0:
+            type = "group"
         if user:
             if isinstance(user, User):
                 u = user
@@ -93,11 +92,8 @@ class ChatGenerator(PtbGenerator):
                 type,
                 title=title,
                 all_members_are_administrators=all_members_are_administrators)
-        elif type == "supergroup" or type == "channel":
-            if not title:
-                gn = random.choice(self.GROUPNAMES)
-            else:
-                gn = title
+        elif type in ["supergroup", "channel"]:
+            gn = random.choice(self.GROUPNAMES) if not title else title
             if not username:
                 username = "".join(gn.split(" "))
             return Chat(

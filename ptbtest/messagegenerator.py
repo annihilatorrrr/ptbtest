@@ -98,7 +98,7 @@ class MessageGenerator(PtbGenerator):
         if chat:
             if not isinstance(chat, Chat):
                 raise BadChatException
-            if not chat.type == "channel":
+            if chat.type != "channel":
                 raise BadChatException(
                     "Can only use chat.type='channel' for get_channel_post")
         else:
@@ -283,9 +283,7 @@ class MessageGenerator(PtbGenerator):
             raise BadMessageException("can't add more than one attachment")
         if photo:
             if isinstance(photo, list):
-                if all([isinstance(x, PhotoSize) for x in photo]):
-                    pass
-                else:
+                if not all(isinstance(x, PhotoSize) for x in photo):
                     raise BadMessageException(
                         "photo must either be True or list(telegram.PhotoSize)")
             elif isinstance(photo, bool):
@@ -438,9 +436,7 @@ class MessageGenerator(PtbGenerator):
                 raise BadChatException(
                     "Can't change the photo for a private chat a private chat")
             if isinstance(new_chat_photo, list):
-                if all([isinstance(x, PhotoSize) for x in new_chat_photo]):
-                    pass
-                else:
+                if not all(isinstance(x, PhotoSize) for x in new_chat_photo):
                     raise BadMessageException(
                         "new_cgat_photo must either be True or list(telegram.PhotoSize)"
                     )
@@ -467,9 +463,8 @@ class MessageGenerator(PtbGenerator):
             if chat.type == "channel":
                 raise BadChatException(
                     "Use get_channel_post to get channel updates.")
-        if user:
-            if not isinstance(user, User):
-                raise BadUserException
+        if user and not isinstance(user, User):
+            raise BadUserException
         if chat:
             if not user:
                 if chat.type == "private":

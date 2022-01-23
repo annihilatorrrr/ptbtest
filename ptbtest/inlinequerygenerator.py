@@ -78,13 +78,11 @@ class InlineQueryGenerator(PtbGenerator):
         else:
             user = self.ug.get_user()
 
-        if query:
-            if not isinstance(query, str):
-                raise AttributeError("query must be string")
+        if query and not isinstance(query, str):
+            raise AttributeError("query must be string")
 
-        if offset:
-            if not isinstance(offset, str):
-                raise AttributeError("offset must be string")
+        if offset and not isinstance(offset, str):
+            raise AttributeError("offset must be string")
 
         if location:
             if isinstance(location, Location):

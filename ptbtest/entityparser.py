@@ -88,8 +88,7 @@ class EntityParser():
         urls = re.compile(
             r'(([hHtTpP]{4}[sS]?|[fFtTpP]{3})://)?([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?'
         )
-        inv = invalids.search(message)
-        if inv:
+        if inv := invalids.search(message):
             raise BadMarkupException(
                 "nested {} is not supported. your text: {}".format(
                     ptype, inv.groups()[0]))

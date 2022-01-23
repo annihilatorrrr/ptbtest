@@ -37,10 +37,7 @@ class TestConversationbot2(unittest.TestCase):
         markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
 
         def facts_to_str(user_data):
-            facts = list()
-            for key, value in user_data.items():
-                facts.append('%s - %s' % (key, value))
-
+            facts = ['%s - %s' % (key, value) for key, value in user_data.items()]
             return "\n".join(facts).join(['\n', '\n'])
 
         def start(bot, update):
